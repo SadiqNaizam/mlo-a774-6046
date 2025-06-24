@@ -78,7 +78,7 @@ const AccountOverview: React.FC<AccountOverviewProps> = ({ className }) => {
                                     <p className="text-xs text-muted-foreground">{new Date(txn.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
                                 </div>
                             </div>
-                            <div className={cn("font-semibold text-sm", txn.type === 'credit' ? 'text-green-600' : 'text-foreground')}>
+                            <div className={cn("font-semibold text-sm", txn.type === 'credit' ? 'text-primary' : 'text-foreground')}>
                                 {txn.type === 'credit' ? '+' : '-'}${Math.abs(txn.amount).toFixed(2)}
                             </div>
                         </div>
