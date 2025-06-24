@@ -1,9 +1,18 @@
+```tsx
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { CreditCard, ChevronRight, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
+import { 
+    CreditCard, 
+    ChevronRight, 
+    ArrowUpRight, 
+    ArrowDownLeft, 
+    Send,
+    PlusCircle,
+    MoreHorizontal
+} from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface AccountOverviewProps {
@@ -21,6 +30,15 @@ const recentTransactionsData = [
     { id: 'txn3', name: 'Michael', date: '2024-07-18', amount: -59.99, type: 'debit' as const, avatarUrl: 'https://i.pravatar.cc/40?u=michael' },
 ];
 
+const QuickActionButton = ({ icon: Icon, label }: { icon: React.ElementType, label: string }) => (
+    <div className="flex flex-col items-center space-y-2">
+        <Button variant="outline" size="icon" className="h-14 w-14 rounded-full bg-primary/5 hover:bg-primary/10 border-primary/20">
+            <Icon className="h-6 w-6 text-primary" />
+        </Button>
+        <span className="text-xs font-medium text-foreground">{label}</span>
+    </div>
+);
+
 const AccountOverview: React.FC<AccountOverviewProps> = ({ className }) => {
   return (
     <div className={cn("space-y-6 bg-background p-4", className)}>
@@ -29,6 +47,17 @@ const AccountOverview: React.FC<AccountOverviewProps> = ({ className }) => {
                 <CardDescription>Available balance</CardDescription>
                 <CardTitle className="text-4xl font-bold tracking-tight">$8,250.75</CardTitle>
             </CardHeader>
+        </Card>
+
+        <Card>
+            <CardContent className="p-4">
+                <div className="grid grid-cols-4 gap-2">
+                    <QuickActionButton icon={Send} label="Send" />
+                    <QuickActionButton icon={ArrowDownLeft} label="Request" />
+                    <QuickActionButton icon={PlusCircle} label="Top-up" />
+                    <QuickActionButton icon={MoreHorizontal} label="More" />
+                </div>
+            </CardContent>
         </Card>
 
         <Card>
@@ -78,11 +107,17 @@ const AccountOverview: React.FC<AccountOverviewProps> = ({ className }) => {
                                     <p className="text-xs text-muted-foreground">{new Date(txn.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
                                 </div>
                             </div>
-                            <div className={cn("font-semibold text-sm", txn.type === 'credit' ? 'text-green-600' : 'text-foreground')}>
-                                {txn.type === 'credit' ? '+' : '-'}${Math.abs(txn.amount).toFixed(2)}
+                            <div className={cn("flex items-center gap-1 font-semibold text-sm", txn.type === 'credit' ? 'text-green-600' : 'text-foreground')}>
+                                {txn.type === 'credit' 
+                                    ? <ArrowUpRight className="h-4 w-4 text-green-600" />
+                                    : <ArrowDownLeft className="h-4 w-4 text-muted-foreground" />
+                                }
+                                <span>
+                                    {txn.type === 'credit' ? '+' : '-'}${Math.abs(txn.amount).toFixed(2)}
+                                </span>
                             </div>
                         </div>
-                    ))}
+                    ))}\
                 </div>
             </CardContent>
         </Card>
@@ -91,3 +126,4 @@ const AccountOverview: React.FC<AccountOverviewProps> = ({ className }) => {
 };
 
 export default AccountOverview;
+```
