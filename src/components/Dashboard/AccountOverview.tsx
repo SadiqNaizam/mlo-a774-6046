@@ -53,7 +53,7 @@ const AccountOverview: React.FC<AccountOverviewProps> = ({ className }) => {
                                 <Button variant="link" size="sm" className="text-primary text-xs h-auto p-0">UPGRADE PLAN</Button>
                             </div>
                         )}
-                        {index < paymentCardsData.length - 1 && <Separator className="mt-2" />}
+                        {index < paymentCardsData.length - 1 && <Separator className="mt-2"/>}
                     </React.Fragment>
                 ))}
             </CardContent>
@@ -78,7 +78,7 @@ const AccountOverview: React.FC<AccountOverviewProps> = ({ className }) => {
                                     <p className="text-xs text-muted-foreground">{new Date(txn.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
                                 </div>
                             </div>
-                            <div className={cn("font-semibold text-sm", txn.type === 'credit' ? 'text-green-500' : 'text-foreground')}>
+                            <div className={cn("font-semibold text-sm", txn.type === 'credit' ? 'text-green-600' : 'text-foreground')}>
                                 {txn.type === 'credit' ? '+' : '-'}${Math.abs(txn.amount).toFixed(2)}
                             </div>
                         </div>
