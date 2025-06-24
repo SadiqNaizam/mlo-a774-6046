@@ -122,7 +122,7 @@ const IndexPage: React.FC = () => {
 
   return (
     // This outer container simulates a mobile device viewport for better presentation.
-    <div className="flex min-h-screen w-full items-center justify-center bg-gray-800 p-4 font-sans">
+    <div className="flex min-h-screen w-full items-center justify-center bg-black p-4 font-sans">
       <div className="relative h-[844px] w-full max-w-[390px] overflow-hidden rounded-[48px] border-[10px] border-black bg-background shadow-2xl">
         {/* Notch simulation */}
         <div className="absolute top-0 left-1/2 z-50 h-7 w-36 -translate-x-1/2 rounded-b-xl bg-black"></div>
