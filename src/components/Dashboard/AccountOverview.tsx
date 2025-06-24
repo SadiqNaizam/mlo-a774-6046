@@ -3,15 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { CreditCard, ChevronRight } from 'lucide-react';
+import { CreditCard, ChevronRight, ArrowUpRight, ArrowDownLeft } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import {
-  ChartContainer,
-  ChartConfig,
-  ChartTooltip,
-  ChartTooltipContent,
-} from "@/components/ui/chart";
 
 interface AccountOverviewProps {
   className?: string;
@@ -28,27 +21,6 @@ const recentTransactionsData = [
     { id: 'txn3', name: 'Michael', date: '2024-07-18', amount: -59.99, type: 'debit' as const, avatarUrl: 'https://i.pravatar.cc/40?u=michael' },
 ];
 
-const chartData = [
-  { month: "Jan", income: 1860, expenses: 800 },
-  { month: "Feb", income: 3050, expenses: 2000 },
-  { month: "Mar", income: 2370, expenses: 1200 },
-  { month: "Apr", income: 730, expenses: 1900 },
-  { month: "May", income: 2090, expenses: 1300 },
-  { month: "Jun", income: 2140, expenses: 1400 },
-];
-
-const chartConfig = {
-  income: {
-    label: "Income",
-    color: "hsl(142.1 76.2% 36.3%)", // A shade of green
-  },
-  expenses: {
-    label: "Expenses",
-    color: "hsl(var(--destructive))", // Uses the theme's destructive color
-  },
-} satisfies ChartConfig;
-
-
 const AccountOverview: React.FC<AccountOverviewProps> = ({ className }) => {
   return (
     <div className={cn("space-y-6 bg-background p-4", className)}>
@@ -57,38 +29,6 @@ const AccountOverview: React.FC<AccountOverviewProps> = ({ className }) => {
                 <CardDescription>Available balance</CardDescription>
                 <CardTitle className="text-4xl font-bold tracking-tight">$8,250.75</CardTitle>
             </CardHeader>
-        </Card>
-
-        <Card>
-          <CardHeader>
-            <CardTitle>Spending Summary</CardTitle>
-            <CardDescription>Income vs Expenses - Last 6 Months</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
-              <BarChart accessibilityLayer data={chartData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
-                <CartesianGrid vertical={false} />
-                <XAxis
-                  dataKey="month"
-                  tickLine={false}
-                  tickMargin={10}
-                  axisLine={false}
-                />
-                 <YAxis
-                    tickLine={false}
-                    axisLine={false}
-                    tickMargin={10}
-                    tickFormatter={(value) => `$${Number(value) / 1000}k`}
-                />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent indicator="dot" />}
-                />
-                <Bar dataKey="income" fill="var(--color-income)" radius={4} />
-                <Bar dataKey="expenses" fill="var(--color-expenses)" radius={4} />
-              </BarChart>
-            </ChartContainer>
-          </CardContent>
         </Card>
 
         <Card>
@@ -113,7 +53,7 @@ const AccountOverview: React.FC<AccountOverviewProps> = ({ className }) => {
                                 <Button variant="link" size="sm" className="text-primary text-xs h-auto p-0">UPGRADE PLAN</Button>
                             </div>
                         )}
-                        {index < paymentCardsData.length - 1 && <Separator className="mt-2"/>}
+                        {index < paymentCardsData.length - 1 && <Separator className="mt-2" />}
                     </React.Fragment>
                 ))}
             </CardContent>
@@ -138,7 +78,7 @@ const AccountOverview: React.FC<AccountOverviewProps> = ({ className }) => {
                                     <p className="text-xs text-muted-foreground">{new Date(txn.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
                                 </div>
                             </div>
-                            <div className={cn("font-semibold text-sm", txn.type === 'credit' ? 'text-success' : 'text-foreground')}>
+                            <div className={cn("font-semibold text-sm", txn.type === 'credit' ? 'text-green-500' : 'text-foreground')}>
                                 {txn.type === 'credit' ? '+' : '-'}${Math.abs(txn.amount).toFixed(2)}
                             </div>
                         </div>
