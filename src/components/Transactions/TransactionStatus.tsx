@@ -15,8 +15,8 @@ const TransactionStatus: React.FC<TransactionStatusProps> = ({ className }) => {
       <Card className="w-full max-w-md mx-auto overflow-hidden border-none shadow-none bg-transparent">
         <div className="w-full rounded-lg overflow-hidden">
             <AspectRatio ratio={16 / 9} className="bg-muted">
-                 <div className="flex h-full w-full items-center justify-center bg-gray-200">
-                    <Smartphone className="h-24 w-24 text-gray-400"/>
+                 <div className="flex h-full w-full items-center justify-center bg-red-100">
+                    <Smartphone className="h-24 w-24 text-red-300"/>
                  </div>
             </AspectRatio>
         </div>
