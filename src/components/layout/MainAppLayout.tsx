@@ -1,4 +1,3 @@
-```tsx
 import React from 'react';
 import { Bell } from 'lucide-react';
 import Header from './Header';
@@ -44,7 +43,7 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = ({
         title={headerTitle}
         showBackButton={showBackButton}
         onBackClick={onBackClick}
-        rightElement={rightElement ?? defaultHeaderRightElement}
+        rightElement={rightElement !== undefined ? rightElement : defaultHeaderRightElement}
       />
       <main className={cn('flex-1 overflow-y-auto pb-20', className)}>
         {/* pb-20 adds padding for the h-16 footer + extra space */}
@@ -56,4 +55,3 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = ({
 };
 
 export default MainAppLayout;
-```
