@@ -1,5 +1,5 @@
 ```tsx
-import React from 'react';
+import React, { useState } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
@@ -13,6 +13,8 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Card, CardContent } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 interface ProfilePageProps {
   className?: string;
@@ -27,18 +29,45 @@ const profileItems = [
 ];
 
 const ProfilePage: React.FC<ProfilePageProps> = ({ className }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [name, setName] = useState('Alex Thompson');
+  const [email, setEmail] = useState('alex.thompson@email.com');
+
+  const getInitials = (fullName: string) => {
+    return fullName.split(' ').map(n => n[0]).filter(Boolean).join('').toUpperCase();
+  }
+
   return (
     <div className={cn("p-4 bg-background h-full flex flex-col", className)}>
-      <div className="flex flex-col items-center space-y-3 mb-8">
+      <div className="flex flex-col items-center space-y-4 mb-8">
         <Avatar className="h-24 w-24 border-2 border-primary">
-          <AvatarImage src="https://i.pravatar.cc/150?u=alexthompson" alt="Alex Thompson" />
-          <AvatarFallback>AT</AvatarFallback>
+          <AvatarImage src="https://i.pravatar.cc/150?u=alexthompson" alt={name} />
+          <AvatarFallback>{getInitials(name)}</AvatarFallback>
         </Avatar>
-        <div className="text-center">
-          <h2 className="text-xl font-bold">Alex Thompson</h2>
-          <p className="text-sm text-muted-foreground">alex.thompson@email.com</p>
+
+        {isEditing ? (
+          <div className="w-full max-w-sm space-y-4 text-left pt-2">
+            <div className="space-y-1">
+              <Label htmlFor="name">Full Name</Label>
+              <Input id="name" value={name} onChange={(e) => setName(e.target.value)} />
+            </div>
+            <div className="space-y-1">
+              <Label htmlFor="email">Email Address</Label>
+              <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+          </div>
+        ) : (
+          <div className="text-center">
+            <h2 className="text-xl font-bold">{name}</h2>
+            <p className="text-sm text-muted-foreground">{email}</p>
+          </div>
+        )}
+        
+        <div className='pt-2'>
+            <Button variant={isEditing ? 'default' : 'outline'} size="sm" onClick={() => setIsEditing(!isEditing)}>
+                {isEditing ? 'Save Changes' : 'Edit Profile'}
+            </Button>
         </div>
-        <Button variant="outline" size="sm">Edit Profile</Button>
       </div>
 
       <Card>
