@@ -1,3 +1,4 @@
+```tsx
 import React from 'react';
 import { Bell } from 'lucide-react';
 import Header from './Header';
@@ -12,6 +13,7 @@ interface MainAppLayoutProps {
   headerTitle: string;
   showBackButton?: boolean;
   onBackClick?: () => void;
+  rightElement?: React.ReactNode;
 }
 
 const MainAppLayout: React.FC<MainAppLayoutProps> = ({
@@ -20,9 +22,10 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = ({
   headerTitle,
   showBackButton,
   onBackClick,
+  rightElement,
 }) => {
 
-  const headerRightElement = (
+  const defaultHeaderRightElement = (
     <div className="flex items-center gap-2">
       <Button variant="ghost" size="icon" className="h-8 w-8">
         <Bell className="h-5 w-5" />
@@ -41,7 +44,7 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = ({
         title={headerTitle}
         showBackButton={showBackButton}
         onBackClick={onBackClick}
-        rightElement={headerRightElement}
+        rightElement={rightElement ?? defaultHeaderRightElement}
       />
       <main className={cn('flex-1 overflow-y-auto pb-20', className)}>
         {/* pb-20 adds padding for the h-16 footer + extra space */}
@@ -53,3 +56,4 @@ const MainAppLayout: React.FC<MainAppLayoutProps> = ({
 };
 
 export default MainAppLayout;
+```
