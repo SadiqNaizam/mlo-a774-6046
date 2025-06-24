@@ -1,19 +1,17 @@
-```tsx
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { 
-    CreditCard, 
-    ChevronRight, 
-    ArrowUpRight, 
-    ArrowDownLeft, 
-    Send,
-    PlusCircle,
-    MoreHorizontal
-} from 'lucide-react';
+import { CreditCard, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import {
+  ChartContainer,
+  ChartConfig,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
 
 interface AccountOverviewProps {
   className?: string;
@@ -30,14 +28,26 @@ const recentTransactionsData = [
     { id: 'txn3', name: 'Michael', date: '2024-07-18', amount: -59.99, type: 'debit' as const, avatarUrl: 'https://i.pravatar.cc/40?u=michael' },
 ];
 
-const QuickActionButton = ({ icon: Icon, label }: { icon: React.ElementType, label: string }) => (
-    <div className="flex flex-col items-center space-y-2">
-        <Button variant="outline" size="icon" className="h-14 w-14 rounded-full bg-primary/5 hover:bg-primary/10 border-primary/20">
-            <Icon className="h-6 w-6 text-primary" />
-        </Button>
-        <span className="text-xs font-medium text-foreground">{label}</span>
-    </div>
-);
+const chartData = [
+  { month: "Jan", income: 1860, expenses: 800 },
+  { month: "Feb", income: 3050, expenses: 2000 },
+  { month: "Mar", income: 2370, expenses: 1200 },
+  { month: "Apr", income: 730, expenses: 1900 },
+  { month: "May", income: 2090, expenses: 1300 },
+  { month: "Jun", income: 2140, expenses: 1400 },
+];
+
+const chartConfig = {
+  income: {
+    label: "Income",
+    color: "hsl(142.1 76.2% 36.3%)", // A shade of green
+  },
+  expenses: {
+    label: "Expenses",
+    color: "hsl(var(--destructive))", // Uses the theme's destructive color
+  },
+} satisfies ChartConfig;
+
 
 const AccountOverview: React.FC<AccountOverviewProps> = ({ className }) => {
   return (
@@ -50,14 +60,35 @@ const AccountOverview: React.FC<AccountOverviewProps> = ({ className }) => {
         </Card>
 
         <Card>
-            <CardContent className="p-4">
-                <div className="grid grid-cols-4 gap-2">
-                    <QuickActionButton icon={Send} label="Send" />
-                    <QuickActionButton icon={ArrowDownLeft} label="Request" />
-                    <QuickActionButton icon={PlusCircle} label="Top-up" />
-                    <QuickActionButton icon={MoreHorizontal} label="More" />
-                </div>
-            </CardContent>
+          <CardHeader>
+            <CardTitle>Spending Summary</CardTitle>
+            <CardDescription>Income vs Expenses - Last 6 Months</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
+              <BarChart accessibilityLayer data={chartData} margin={{ top: 5, right: 5, left: -20, bottom: 5 }}>
+                <CartesianGrid vertical={false} />
+                <XAxis
+                  dataKey="month"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                />
+                 <YAxis
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={10}
+                    tickFormatter={(value) => `$${Number(value) / 1000}k`}
+                />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent indicator="dot" />}
+                />
+                <Bar dataKey="income" fill="var(--color-income)" radius={4} />
+                <Bar dataKey="expenses" fill="var(--color-expenses)" radius={4} />
+              </BarChart>
+            </ChartContainer>
+          </CardContent>
         </Card>
 
         <Card>
@@ -107,17 +138,11 @@ const AccountOverview: React.FC<AccountOverviewProps> = ({ className }) => {
                                     <p className="text-xs text-muted-foreground">{new Date(txn.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
                                 </div>
                             </div>
-                            <div className={cn("flex items-center gap-1 font-semibold text-sm", txn.type === 'credit' ? 'text-green-600' : 'text-foreground')}>
-                                {txn.type === 'credit' 
-                                    ? <ArrowUpRight className="h-4 w-4 text-green-600" />
-                                    : <ArrowDownLeft className="h-4 w-4 text-muted-foreground" />
-                                }
-                                <span>
-                                    {txn.type === 'credit' ? '+' : '-'}${Math.abs(txn.amount).toFixed(2)}
-                                </span>
+                            <div className={cn("font-semibold text-sm", txn.type === 'credit' ? 'text-success' : 'text-foreground')}>
+                                {txn.type === 'credit' ? '+' : '-'}${Math.abs(txn.amount).toFixed(2)}
                             </div>
                         </div>
-                    ))}\
+                    ))}
                 </div>
             </CardContent>
         </Card>
@@ -126,4 +151,3 @@ const AccountOverview: React.FC<AccountOverviewProps> = ({ className }) => {
 };
 
 export default AccountOverview;
-```
